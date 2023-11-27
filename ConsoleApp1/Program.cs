@@ -26,23 +26,18 @@ namespace HttpClientSample
         };
 
         static int port = 8080;
-        static string address = "127.0.0.1"; // localhost
+        static string address = "127.0.0.1";
         static void Main(string[] args)
         {
-            // створення кінцевої точки для запуску сервера
             IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
-
-            // створюємо сокет на вказаній кінцевій точці
             TcpListener listener = new TcpListener(ipPoint);
-
-            // запуск приймання підключень на сервер
             listener.Start(10);
 
             while (true)
             {
                 Console.WriteLine("Server started! Waiting for connection...");
                 
-                TcpClient client = listener.AcceptTcpClient(); // wait until connection
+                TcpClient client = listener.AcceptTcpClient();
 
                 try
                 {
@@ -50,27 +45,19 @@ namespace HttpClientSample
                     {
                         NetworkStream ns = client.GetStream();
 
-                        // отримуємо переданий об'єкт та десеріалізуємо його
-                        //BinaryFormatter formatter = new BinaryFormatter();
-                        //var request = JsonSerializer.Deserialize<string>(ns);
-
                         StreamReader streamReader= new StreamReader(ns);
                         
                         var request = streamReader.ReadLine();
 
                         Console.WriteLine($"Request data: {request} from {client.Client.RemoteEndPoint}");
-
-                        // відправляємо відповідь
                         
                         string response = $"Result = {list.Where(x => x.VINcode == request).Select(x => x.Name).First()}";
                         Console.WriteLine(response);
 
-                        StreamWriter sw = new StreamWriter(ns); // розмір буфера за замовчуванням: 1KB
+                        StreamWriter sw = new StreamWriter(ns);
                         sw.WriteLine(response);
-                        sw.Flush(); // clear buffer
+                        sw.Flush();
                     }
-
-                    // закриваємо сокет
                     client.Close();
                 }
                 catch (Exception ex)
