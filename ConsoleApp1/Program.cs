@@ -20,9 +20,9 @@ namespace HttpClientSample
     {
         static List<Car> list = new List<Car>
         {
-            new Car() {Name = "Audi", VINcode = "AI2512BT" },
-            new Car() {Name = "BMW", VINcode = "NR2345OW" },
-            new Car() {Name = "Dodge", VINcode = "BK5167RS" }
+            new Car() {Name = "Audi", VINcode = "AV2512BT" },
+            new Car() {Name = "BMW", VINcode = "SR2345OW" },
+            new Car() {Name = "Dodge", VINcode = "BD5167RS" }
         };
 
         static int port = 8080;
